@@ -2,7 +2,7 @@ import tkinter as tk,threading,queue,math
 class NativeWheel:
  def __init__(self,on_choose):self.on_choose=on_choose;self.q=queue.Queue();self.last_prompts=[];self.last_x=0;self.last_y=0;self.ready=threading.Event();threading.Thread(target=self._run,daemon=True).start();self.ready.wait()
  def _run(self):
-  self.root=tk.Tk();self.root.withdraw();self.root.overrideredirect(True);self.root.attributes('-topmost',True);self.root.configure(bg='#17213b');self.canvas=tk.Canvas(self.root,width=420,height=420,bg='#17213b',highlightthickness=0);self.canvas.pack();self.ready.set();self.root.after(30,self._poll);self.root.mainloop()
+  self.root=tk.Tk();self.root.withdraw();self.root.overrideredirect(True);self.root.attributes('-topmost',True);self.root.configure(bg='#ff00ff');self.root.attributes('-transparentcolor','#ff00ff');self.canvas=tk.Canvas(self.root,width=420,height=420,bg='#ff00ff',highlightthickness=0);self.canvas.pack();self.ready.set();self.root.after(30,self._poll);self.root.mainloop()
  def _poll(self):
   try:
    while 1:
@@ -20,4 +20,5 @@ class NativeWheel:
    a=math.atan2(y-self.last_y,x-self.last_x)+math.pi/2;i=int(round((a%(2*math.pi))/(2*math.pi/len(self.last_prompts))))%len(self.last_prompts);self.on_choose(self.last_prompts[i].id)
  def hide(self):self.q.put((self._hide,))
  def _hide(self):self.root.withdraw()
+
 
